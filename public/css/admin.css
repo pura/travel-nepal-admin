@@ -1,0 +1,330 @@
+/**
+ * Travel Nepal – Admin theme
+ * Professional, consistent styling for all EasyAdmin pages.
+ */
+
+/* -------------------------------------------------------------------------
+   CSS variables (override EasyAdmin / Bootstrap)
+   ------------------------------------------------------------------------- */
+:root {
+  --body-bg: #f0f4f8;
+  --body-max-width: 100%;
+  --font-size-base: 0.9375rem;
+  --font-family-sans-serif: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --border-radius: 8px;
+  --border-radius-sm: 6px;
+  --sidebar-bg: #1e293b;
+  --sidebar-color: #e2e8f0;
+  --sidebar-hover-bg: #334155;
+  --sidebar-active-bg: #0f172a;
+  --sidebar-width: 16rem;
+  --content-header-bg: #fff;
+  --content-header-border: #e2e8f0;
+  --card-bg: #fff;
+  --card-border: #e2e8f0;
+  --card-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --table-header-bg: #f8fafc;
+  --table-header-color: #475569;
+  --table-border: #e2e8f0;
+  --btn-primary-bg: #0d9488;
+  --btn-primary-border: #0d9488;
+  --btn-primary-hover-bg: #0f766e;
+  --link-color: #0d9488;
+  --link-hover-color: #0f766e;
+  --headings-color: #0f172a;
+  --text-muted: #64748b;
+}
+
+/* -------------------------------------------------------------------------
+   Base layout & typography
+   ------------------------------------------------------------------------- */
+body.ea-body {
+  background: var(--body-bg);
+  color: #334155;
+  min-height: 100vh;
+}
+
+.ea-content {
+  padding: 1.5rem 2rem 2rem;
+}
+
+.ea-main .content-header {
+  background: var(--content-header-bg);
+  border-bottom: 1px solid var(--content-header-border);
+  padding: 1rem 0;
+  margin-bottom: 1.5rem;
+}
+
+.ea-main .content-title {
+  font-weight: 600;
+  color: var(--headings-color);
+  font-size: 1.25rem;
+}
+
+/* -------------------------------------------------------------------------
+   Sidebar
+   ------------------------------------------------------------------------- */
+.ea-sidebar {
+  background: var(--sidebar-bg) !important;
+  width: var(--sidebar-width);
+}
+
+.ea-sidebar .sidebar-brand {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff !important;
+}
+
+.ea-sidebar .menu-item a {
+  color: var(--sidebar-color) !important;
+  padding: 0.65rem 1.5rem;
+  border-radius: 0 6px 6px 0;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ea-sidebar .menu-item a:hover {
+  background: var(--sidebar-hover-bg) !important;
+  color: #fff !important;
+}
+
+.ea-sidebar .menu-item a.active {
+  background: var(--sidebar-active-bg) !important;
+  color: #fff !important;
+  font-weight: 500;
+}
+
+.ea-sidebar .menu-item .menu-icon {
+  opacity: 0.85;
+}
+
+/* -------------------------------------------------------------------------
+   Cards & panels
+   ------------------------------------------------------------------------- */
+.ea-main .card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+}
+
+.ea-main .card-header {
+  background: var(--table-header-bg);
+  color: var(--table-header-color);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--table-border);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.ea-main .card-body {
+  padding: 1rem;
+}
+
+/* -------------------------------------------------------------------------
+   Tables (index / list)
+   ------------------------------------------------------------------------- */
+.ea-main table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.ea-main thead th {
+  background: var(--table-header-bg);
+  color: var(--table-header-color);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--table-border);
+  text-align: left;
+}
+
+.ea-main tbody td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--table-border);
+  vertical-align: middle;
+}
+
+.ea-main tbody tr:hover {
+  background: #f8fafc;
+}
+
+.ea-main .table-striped tbody tr:nth-of-type(even) {
+  background: #fafbfc;
+}
+
+.ea-main .table-striped tbody tr:nth-of-type(even):hover {
+  background: #f1f5f9;
+}
+
+/* -------------------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------------------- */
+.ea-main .btn {
+  border-radius: var(--border-radius-sm);
+  font-weight: 500;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.ea-main .btn-primary {
+  background: var(--btn-primary-bg);
+  border-color: var(--btn-primary-border);
+}
+
+.ea-main .btn-primary:hover {
+  background: var(--btn-primary-hover-bg);
+  border-color: var(--btn-primary-hover-bg);
+}
+
+.ea-main .btn-secondary {
+  background: #fff;
+  border: 1px solid var(--table-border);
+  color: #475569;
+}
+
+.ea-main .btn-secondary:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+.ea-main .btn-success {
+  background: #059669;
+  border-color: #059669;
+}
+
+.ea-main .btn-success:hover {
+  background: #047857;
+  border-color: #047857;
+}
+
+.ea-main .btn-danger {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+.ea-main .btn-danger:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+/* -------------------------------------------------------------------------
+   Forms
+   ------------------------------------------------------------------------- */
+.ea-main .form-control,
+.ea-main .form-select {
+  border-radius: var(--border-radius-sm);
+  border: 1px solid #cbd5e1;
+  padding: 0.5rem 0.75rem;
+  font-size: var(--font-size-base);
+}
+
+.ea-main .form-control:focus,
+.ea-main .form-select:focus {
+  border-color: var(--btn-primary-bg);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.ea-main .form-label {
+  font-weight: 500;
+  color: #334155;
+  margin-bottom: 0.35rem;
+}
+
+.ea-main .form-text {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+/* -------------------------------------------------------------------------
+   Links & actions
+   ------------------------------------------------------------------------- */
+.ea-main a:not(.btn) {
+  color: var(--link-color);
+}
+
+.ea-main a:not(.btn):hover {
+  color: var(--link-hover-color);
+}
+
+.ea-main .action-detail,
+.ea-main .action-edit,
+.ea-main .action-delete {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+}
+
+/* -------------------------------------------------------------------------
+   Alerts & badges
+   ------------------------------------------------------------------------- */
+.ea-main .alert {
+  border-radius: var(--border-radius-sm);
+  border: 1px solid transparent;
+}
+
+.ea-main .alert-success {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+
+.ea-main .alert-warning {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #92400e;
+}
+
+.ea-main .alert-danger {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.ea-main .badge {
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+  border-radius: 6px;
+}
+
+/* -------------------------------------------------------------------------
+   Pagination
+   ------------------------------------------------------------------------- */
+.ea-main .pagination {
+  gap: 0.25rem;
+}
+
+.ea-main .page-link {
+  border-radius: var(--border-radius-sm) !important;
+  color: #475569;
+  font-weight: 500;
+}
+
+.ea-main .page-item.active .page-link {
+  background: var(--btn-primary-bg);
+  border-color: var(--btn-primary-bg);
+}
+
+/* -------------------------------------------------------------------------
+   Dashboard welcome / empty state
+   ------------------------------------------------------------------------- */
+.ea-main .content-header .title {
+  font-weight: 600;
+  color: var(--headings-color);
+}
+
+/* Ensure bundle assets can breathe */
+.ea-scrollable-body {
+  background: var(--body-bg);
+}
+
+/* Responsive: stack sidebar on small screens if EA does */
+@media (max-width: 991.98px) {
+  .ea-content {
+    padding: 1rem;
+  }
+}
