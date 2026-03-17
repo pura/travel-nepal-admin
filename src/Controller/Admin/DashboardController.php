@@ -37,6 +37,9 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkTo(HotelCrudController::class, 'Hotels', 'fa fa-hotel');
         yield MenuItem::linkTo(GuideCrudController::class, 'Guides', 'fa fa-user-tie');
         yield MenuItem::linkTo(TransportServiceCrudController::class, 'Transport', 'fa fa-car');
+        yield MenuItem::section('Suppliers & Regions');
+        yield MenuItem::linkTo(SupplierCrudController::class, 'Suppliers', 'fa fa-handshake');
+        yield MenuItem::linkTo(RegionCrudController::class, 'Regions', 'fa fa-globe-asia');
         yield MenuItem::section('Itineraries');
         yield MenuItem::linkTo(ItineraryTemplateCrudController::class, 'Itinerary templates', 'fa fa-route');
         yield MenuItem::section('Contacts');

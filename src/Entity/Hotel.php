@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\HotelRepository;
+use App\Entity\Supplier;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +26,10 @@ class Hotel
     #[ORM\ManyToOne(targetEntity: Destination::class, inversedBy: 'hotels')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Destination $destination = null;
+
+    #[ORM\ManyToOne(targetEntity: Supplier::class, inversedBy: 'hotels')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Supplier $supplier = null;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
@@ -86,6 +91,17 @@ class Hotel
     public function setDestination(?Destination $destination): static
     {
         $this->destination = $destination;
+        return $this;
+    }
+
+    public function getSupplier(): ?Supplier
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(?Supplier $supplier): static
+    {
+        $this->supplier = $supplier;
         return $this;
     }
 

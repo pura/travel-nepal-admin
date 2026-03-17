@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\TransportServiceRepository;
+use App\Entity\Supplier;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,6 +25,10 @@ class TransportService
 
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
+
+    #[ORM\ManyToOne(targetEntity: Supplier::class, inversedBy: 'transportServices')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Supplier $supplier = null;
 
     #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $serviceType = null;
@@ -81,6 +86,17 @@ class TransportService
     public function setName(string $name): static
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getSupplier(): ?Supplier
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(?Supplier $supplier): static
+    {
+        $this->supplier = $supplier;
         return $this;
     }
 

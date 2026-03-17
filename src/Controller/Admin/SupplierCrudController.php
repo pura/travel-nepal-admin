@@ -2,20 +2,20 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\TransportService;
+use App\Entity\Supplier;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class TransportServiceCrudController extends AbstractCrudController
+class SupplierCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return TransportService::class;
+        return Supplier::class;
     }
 
     public function configureFields(string $pageName): iterable
@@ -23,13 +23,16 @@ class TransportServiceCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('name'),
-            AssociationField::new('supplier')->setRequired(false),
-            TextField::new('serviceType')->hideOnIndex(),
-            TextField::new('vehicleType')->hideOnIndex(),
-            IntegerField::new('capacity')->hideOnIndex(),
-            TextField::new('baseArea')->hideOnIndex(),
-            TextareaField::new('priceNotes')->hideOnIndex(),
+            TextField::new('supplierType')->hideOnIndex(),
+            TextField::new('contactName')->hideOnIndex(),
+            TextField::new('contactEmail')->hideOnIndex(),
+            TextField::new('contactPhone')->hideOnIndex(),
+            AssociationField::new('regions'),
             BooleanField::new('isActive'),
+            TextareaField::new('notes')->hideOnIndex(),
+            DateTimeField::new('createdAt')->onlyOnDetail(),
+            DateTimeField::new('updatedAt')->onlyOnDetail(),
         ];
     }
 }
+

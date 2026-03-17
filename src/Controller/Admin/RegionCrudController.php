@@ -2,34 +2,33 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\TransportService;
+use App\Entity\Region;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class TransportServiceCrudController extends AbstractCrudController
+class RegionCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return TransportService::class;
+        return Region::class;
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->onlyOnIndex(),
+            TextField::new('country'),
             TextField::new('name'),
-            AssociationField::new('supplier')->setRequired(false),
-            TextField::new('serviceType')->hideOnIndex(),
-            TextField::new('vehicleType')->hideOnIndex(),
-            IntegerField::new('capacity')->hideOnIndex(),
-            TextField::new('baseArea')->hideOnIndex(),
-            TextareaField::new('priceNotes')->hideOnIndex(),
+            TextField::new('slug'),
             BooleanField::new('isActive'),
+            AssociationField::new('suppliers')->onlyOnDetail(),
+            DateTimeField::new('createdAt')->onlyOnDetail(),
+            DateTimeField::new('updatedAt')->onlyOnDetail(),
         ];
     }
 }
+
