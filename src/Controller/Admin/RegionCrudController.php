@@ -26,6 +26,8 @@ class RegionCrudController extends AbstractCrudController
             TextField::new('slug'),
             BooleanField::new('isActive'),
             AssociationField::new('suppliers')->onlyOnDetail(),
+            AssociationField::new('hotels')->onlyOnDetail(),
+            AssociationField::new('startingItineraryTemplates')->onlyOnDetail(),
             DateTimeField::new('createdAt')->onlyOnDetail(),
             DateTimeField::new('updatedAt')->onlyOnDetail(),
         ];

@@ -22,7 +22,7 @@ class HotelCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('destination'),
+            AssociationField::new('region'),
             AssociationField::new('supplier')->setRequired(false),
             TextField::new('name'),
             TextField::new('category')->hideOnIndex(),

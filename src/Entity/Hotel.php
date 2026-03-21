@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\HotelRepository;
-use App\Entity\Supplier;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Accommodation option at a given destination. Tracks name, category, price range, amenities, and contact details
- * for booking. Linked to one Destination.
+ * Accommodation option in a geographical region. Tracks name, category, price range, amenities, and contact details
+ * for booking. Linked to one Region.
  */
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -23,9 +22,9 @@ class Hotel
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Destination::class, inversedBy: 'hotels')]
+    #[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'hotels')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Destination $destination = null;
+    private ?Region $region = null;
 
     #[ORM\ManyToOne(targetEntity: Supplier::class, inversedBy: 'hotels')]
     #[ORM\JoinColumn(nullable: true)]
@@ -83,14 +82,14 @@ class Hotel
         return $this->id;
     }
 
-    public function getDestination(): ?Destination
+    public function getRegion(): ?Region
     {
-        return $this->destination;
+        return $this->region;
     }
 
-    public function setDestination(?Destination $destination): static
+    public function setRegion(?Region $region): static
     {
-        $this->destination = $destination;
+        $this->region = $region;
         return $this;
     }
 

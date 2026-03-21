@@ -12,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Reusable trip blueprint (e.g. "7-day Classic Nepal", "Everest Trek"). Defines trip type, duration,
- * budget/comfort/difficulty levels, interest tags, and a summary. Composed of one or more ItineraryTemplateDay
- * records for day-by-day planning.
+ * budget/comfort/difficulty levels, interest tags, a summary, and optional starting region. Composed of one or more
+ * ItineraryTemplateDay records for day-by-day planning.
  */
 #[ORM\Entity(repositoryClass: ItineraryTemplateRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -30,6 +30,10 @@ class ItineraryTemplate
 
     #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     private ?string $slug = null;
+
+    #[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'startingItineraryTemplates')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Region $startingRegion = null;
 
     #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     private ?string $tripType = null;
@@ -109,6 +113,17 @@ class ItineraryTemplate
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+        return $this;
+    }
+
+    public function getStartingRegion(): ?Region
+    {
+        return $this->startingRegion;
+    }
+
+    public function setStartingRegion(?Region $startingRegion): static
+    {
+        $this->startingRegion = $startingRegion;
         return $this;
     }
 

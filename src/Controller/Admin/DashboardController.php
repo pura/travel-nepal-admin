@@ -42,6 +42,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkTo(RegionCrudController::class, 'Regions', 'fa fa-globe-asia');
         yield MenuItem::section('Itineraries');
         yield MenuItem::linkTo(ItineraryTemplateCrudController::class, 'Itinerary templates', 'fa fa-route');
+        yield MenuItem::linkTo(ItineraryTemplateDayCrudController::class, 'Itinerary template days', 'fa fa-calendar-day');
         yield MenuItem::section('Contacts');
         yield MenuItem::linkTo(RepresentativeCrudController::class, 'Representatives', 'fa fa-address-book');
     }

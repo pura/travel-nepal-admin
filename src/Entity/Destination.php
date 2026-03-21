@@ -11,8 +11,10 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * A place or region in Nepal that can be offered as part of a trip (e.g. Kathmandu, Pokhara, Everest Base Camp).
+ * A place or region in Nepal that can be offered as final or Major part of a trip (e.g. Kathmandu, Pokhara, Chitwan,
+ * Everest Base Camp, Poon Hill).
  * Stores descriptions, suggested duration, budget/difficulty levels, activity tags, and best months to visit.
+ * The main difference between a destination and a region is that a destination is a final or Major part of a trip. 
  */
 #[ORM\Entity(repositoryClass: DestinationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -68,17 +70,12 @@ class Destination
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    /** @var Collection<int, Hotel> */
-    #[ORM\OneToMany(targetEntity: Hotel::class, mappedBy: 'destination')]
-    private Collection $hotels;
-
     /** @var Collection<int, ItineraryTemplateDay> */
     #[ORM\OneToMany(targetEntity: ItineraryTemplateDay::class, mappedBy: 'destination')]
     private Collection $itineraryTemplateDays;
 
     public function __construct()
     {
-        $this->hotels = new ArrayCollection();
         $this->itineraryTemplateDays = new ArrayCollection();
     }
 
@@ -98,6 +95,11 @@ class Destination
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function __toString(): string
+    {
+        return (string) ($this->name ?? '');
     }
 
     public function getName(): ?string
@@ -244,31 +246,6 @@ class Destination
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
-    }
-
-    /** @return Collection<int, Hotel> */
-    public function getHotels(): Collection
-    {
-        return $this->hotels;
-    }
-
-    public function addHotel(Hotel $hotel): static
-    {
-        if (!$this->hotels->contains($hotel)) {
-            $this->hotels->add($hotel);
-            $hotel->setDestination($this);
-        }
-        return $this;
-    }
-
-    public function removeHotel(Hotel $hotel): static
-    {
-        if ($this->hotels->removeElement($hotel)) {
-            if ($hotel->getDestination() === $this) {
-                $hotel->setDestination(null);
-            }
-        }
-        return $this;
     }
 
     /** @return Collection<int, ItineraryTemplateDay> */
