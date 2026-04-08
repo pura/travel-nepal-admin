@@ -6,10 +6,12 @@ use App\Entity\Supplier;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
 class SupplierCrudController extends AbstractCrudController
 {
@@ -23,10 +25,11 @@ class SupplierCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('name'),
-            TextField::new('supplierType')->hideOnIndex(),
+            ChoiceField::new('supplierType')->setChoices(Supplier::getSupplierTypeChoices())->hideOnIndex(),
             TextField::new('contactName')->hideOnIndex(),
             TextField::new('contactEmail')->hideOnIndex(),
             TextField::new('contactPhone')->hideOnIndex(),
+            UrlField::new('website')->setRequired(false)->hideOnIndex(),
             AssociationField::new('regions'),
             BooleanField::new('isActive'),
             TextareaField::new('notes')->hideOnIndex(),

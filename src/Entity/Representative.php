@@ -11,6 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Company or agency representative (e.g. sales, support). Stores contact channels (email, phone, WhatsApp),
  * languages spoken, and active hours. Used for assigning points of contact to trips or inquiries.
+ * When a customer inquires about a trip, we can assign a representative that they can contact throughout their trip.
+ * They will assist in booking the trip, and provide information about the trip, detailing about the trip, itinery
+ * and reponse to any questions or issues on the trip.
+ * This is appointed Reresentative by EasyTravelNepal Team. 
  */
 #[ORM\Entity(repositoryClass: RepresentativeRepository::class)]
 #[ORM\HasLifecycleCallbacks]

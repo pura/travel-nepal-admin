@@ -17,6 +17,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'hotel')]
 class Hotel
 {
+    public const CATEGORY_BUDGET = 'budget';
+    public const CATEGORY_STANDARD = 'standard';
+    public const CATEGORY_BOUTIQUE = 'boutique';
+    public const CATEGORY_LUXURY = 'luxury';
+    public const CATEGORY_RESORT = 'resort';
+    public const CATEGORY_HOMESTAY = 'homestay';
+    public const CATEGORY_GUESTHOUSE = 'guesthouse';
+    public const CATEGORY_HOSTEL = 'hostel';
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column(type: Types::INTEGER)]
@@ -124,6 +133,21 @@ class Hotel
     {
         $this->category = $category;
         return $this;
+    }
+
+    /** @return array<string, string> */
+    public static function getCategoryChoices(): array
+    {
+        return [
+            'Budget Hotel' => self::CATEGORY_BUDGET,
+            'Standard Hotel' => self::CATEGORY_STANDARD,
+            'Boutique Hotel' => self::CATEGORY_BOUTIQUE,
+            'Luxury Hotel' => self::CATEGORY_LUXURY,
+            'Resort' => self::CATEGORY_RESORT,
+            'Homestay' => self::CATEGORY_HOMESTAY,
+            'Guesthouse' => self::CATEGORY_GUESTHOUSE,
+            'Hostel' => self::CATEGORY_HOSTEL,
+        ];
     }
 
     public function getNightlyPriceFrom(): ?string

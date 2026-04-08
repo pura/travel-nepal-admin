@@ -20,6 +20,33 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'itinerary_template')]
 class ItineraryTemplate
 {
+    public const TRIP_TYPE_CULTURAL_HERITAGE = 'cultural_heritage';
+    public const TRIP_TYPE_TREKKING_HIKING = 'trekking_hiking';
+    public const TRIP_TYPE_ADVENTURE = 'adventure';
+    public const TRIP_TYPE_WILDLIFE_JUNGLE = 'wildlife_jungle';
+    public const TRIP_TYPE_SPIRITUAL_PILGRIMAGE = 'spiritual_pilgrimage';
+    public const TRIP_TYPE_LUXURY_LEISURE = 'luxury_leisure';
+    public const TRIP_TYPE_FAMILY = 'family';
+
+    public const COMFORT_BASIC = 'basic';
+    public const COMFORT_STANDARD = 'standard';
+    public const COMFORT_PREMIUM = 'premium';
+
+    public const DIFFICULTY_EASY = 'easy';
+    public const DIFFICULTY_MODERATE = 'moderate';
+    public const DIFFICULTY_CHALLENGING = 'challenging';
+
+    public const INTEREST_MOUNTAINS = 'mountains';
+    public const INTEREST_TREKKING = 'trekking';
+    public const INTEREST_CULTURE = 'culture';
+    public const INTEREST_HERITAGE = 'heritage';
+    public const INTEREST_WILDLIFE = 'wildlife';
+    public const INTEREST_PHOTOGRAPHY = 'photography';
+    public const INTEREST_ADVENTURE_SPORTS = 'adventure_sports';
+    public const INTEREST_FOOD = 'food';
+    public const INTEREST_SPIRITUAL = 'spiritual';
+    public const INTEREST_FESTIVALS = 'festivals';
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column(type: Types::INTEGER)]
@@ -138,6 +165,20 @@ class ItineraryTemplate
         return $this;
     }
 
+    /** @return array<string, string> */
+    public static function getTripTypeChoices(): array
+    {
+        return [
+            'Cultural & Heritage' => self::TRIP_TYPE_CULTURAL_HERITAGE,
+            'Trekking & Hiking' => self::TRIP_TYPE_TREKKING_HIKING,
+            'Adventure' => self::TRIP_TYPE_ADVENTURE,
+            'Wildlife & Jungle' => self::TRIP_TYPE_WILDLIFE_JUNGLE,
+            'Spiritual/Pilgrimage' => self::TRIP_TYPE_SPIRITUAL_PILGRIMAGE,
+            'Luxury & Leisure' => self::TRIP_TYPE_LUXURY_LEISURE,
+            'Family' => self::TRIP_TYPE_FAMILY,
+        ];
+    }
+
     public function getDurationDays(): ?int
     {
         return $this->durationDays;
@@ -171,6 +212,16 @@ class ItineraryTemplate
         return $this;
     }
 
+    /** @return array<string, string> */
+    public static function getComfortLevelChoices(): array
+    {
+        return [
+            'Basic' => self::COMFORT_BASIC,
+            'Standard' => self::COMFORT_STANDARD,
+            'Premium' => self::COMFORT_PREMIUM,
+        ];
+    }
+
     public function getDifficultyLevel(): ?string
     {
         return $this->difficultyLevel;
@@ -180,6 +231,16 @@ class ItineraryTemplate
     {
         $this->difficultyLevel = $difficultyLevel;
         return $this;
+    }
+
+    /** @return array<string, string> */
+    public static function getDifficultyLevelChoices(): array
+    {
+        return [
+            'Easy' => self::DIFFICULTY_EASY,
+            'Moderate' => self::DIFFICULTY_MODERATE,
+            'Challenging' => self::DIFFICULTY_CHALLENGING,
+        ];
     }
 
     /** @return array<int, string> */
@@ -193,6 +254,23 @@ class ItineraryTemplate
     {
         $this->interestTags = $interestTags;
         return $this;
+    }
+
+    /** @return array<string, string> */
+    public static function getInterestTagChoices(): array
+    {
+        return [
+            'Mountains' => self::INTEREST_MOUNTAINS,
+            'Trekking' => self::INTEREST_TREKKING,
+            'Culture' => self::INTEREST_CULTURE,
+            'Heritage' => self::INTEREST_HERITAGE,
+            'Wildlife' => self::INTEREST_WILDLIFE,
+            'Photography' => self::INTEREST_PHOTOGRAPHY,
+            'Adventure Sports' => self::INTEREST_ADVENTURE_SPORTS,
+            'Food' => self::INTEREST_FOOD,
+            'Spiritual' => self::INTEREST_SPIRITUAL,
+            'Festivals' => self::INTEREST_FESTIVALS,
+        ];
     }
 
     public function getSummary(): ?string

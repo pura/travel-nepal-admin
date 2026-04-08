@@ -18,6 +18,26 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'transport_service')]
 class TransportService
 {
+    public const SERVICE_AIRPORT_TRANSFER = 'airport_transfer';
+    public const SERVICE_CITY_TRANSFER = 'city_transfer';
+    public const SERVICE_INTERCITY_TRANSFER = 'intercity_transfer';
+    public const SERVICE_SIGHTSEEING = 'sightseeing';
+    public const SERVICE_TREK_DROP_PICKUP = 'trek_drop_pickup';
+    public const SERVICE_JEEP_HIRE = 'jeep_hire';
+    public const SERVICE_MOUNTAIN_FLIGHT = 'mountain_flight';
+    public const SERVICE_HELICOPTER_CHARTER = 'helicopter_charter';
+
+    public const VEHICLE_HATCHBACK_CAR = 'hatchback_car';
+    public const VEHICLE_SEDAN_CAR = 'sedan_car';
+    public const VEHICLE_SUV = 'suv';
+    public const VEHICLE_4WD_JEEP = '4wd_jeep';
+    public const VEHICLE_VAN_HIACE = 'van_hiace';
+    public const VEHICLE_MINIBUS = 'minibus';
+    public const VEHICLE_TOURIST_BUS = 'tourist_bus';
+    public const VEHICLE_DOMESTIC_FLIGHT = 'domestic_flight';
+    public const VEHICLE_HELICOPTER = 'helicopter';
+    public const VEHICLE_MOTORBIKE = 'motorbike';
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column(type: Types::INTEGER)]
@@ -111,6 +131,21 @@ class TransportService
         return $this;
     }
 
+    /** @return array<string, string> */
+    public static function getServiceTypeChoices(): array
+    {
+        return [
+            'Airport Transfer' => self::SERVICE_AIRPORT_TRANSFER,
+            'City Transfer' => self::SERVICE_CITY_TRANSFER,
+            'Intercity Transfer' => self::SERVICE_INTERCITY_TRANSFER,
+            'Sightseeing Tour Transport' => self::SERVICE_SIGHTSEEING,
+            'Trek Drop/Pickup' => self::SERVICE_TREK_DROP_PICKUP,
+            'Jeep Hire' => self::SERVICE_JEEP_HIRE,
+            'Mountain Flight' => self::SERVICE_MOUNTAIN_FLIGHT,
+            'Helicopter Charter' => self::SERVICE_HELICOPTER_CHARTER,
+        ];
+    }
+
     public function getVehicleType(): ?string
     {
         return $this->vehicleType;
@@ -120,6 +155,23 @@ class TransportService
     {
         $this->vehicleType = $vehicleType;
         return $this;
+    }
+
+    /** @return array<string, string> */
+    public static function getVehicleTypeChoices(): array
+    {
+        return [
+            'Hatchback Car' => self::VEHICLE_HATCHBACK_CAR,
+            'Sedan Car' => self::VEHICLE_SEDAN_CAR,
+            'SUV' => self::VEHICLE_SUV,
+            '4WD Jeep' => self::VEHICLE_4WD_JEEP,
+            'Van (Hiace)' => self::VEHICLE_VAN_HIACE,
+            'Minibus' => self::VEHICLE_MINIBUS,
+            'Tourist Bus' => self::VEHICLE_TOURIST_BUS,
+            'Domestic Flight' => self::VEHICLE_DOMESTIC_FLIGHT,
+            'Helicopter' => self::VEHICLE_HELICOPTER,
+            'Motorbike' => self::VEHICLE_MOTORBIKE,
+        ];
     }
 
     public function getCapacity(): ?int

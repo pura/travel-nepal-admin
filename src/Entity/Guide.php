@@ -18,6 +18,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'guide')]
 class Guide
 {
+    public const TYPE_CITY_SIGHTSEEING = 'city_sightseeing';
+    public const TYPE_CULTURAL_HERITAGE = 'cultural_heritage';
+    public const TYPE_TREKKING_GUIDE = 'trekking_guide';
+    public const TYPE_MOUNTAINEERING_GUIDE = 'mountaineering_guide';
+    public const TYPE_WILDLIFE_NATURE = 'wildlife_nature';
+    public const TYPE_ADVENTURE_SPORTS = 'adventure_sports';
+    public const TYPE_SPIRITUAL_PILGRIMAGE = 'spiritual_pilgrimage';
+    public const TYPE_PHOTOGRAPHY = 'photography';
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column(type: Types::INTEGER)]
@@ -118,6 +127,21 @@ class Guide
     {
         $this->guideType = $guideType;
         return $this;
+    }
+
+    /** @return array<string, string> */
+    public static function getGuideTypeChoices(): array
+    {
+        return [
+            'City Sightseeing Guide' => self::TYPE_CITY_SIGHTSEEING,
+            'Cultural & Heritage Guide' => self::TYPE_CULTURAL_HERITAGE,
+            'Trekking Guide' => self::TYPE_TREKKING_GUIDE,
+            'Mountaineering Guide' => self::TYPE_MOUNTAINEERING_GUIDE,
+            'Wildlife & Nature Guide' => self::TYPE_WILDLIFE_NATURE,
+            'Adventure Sports Guide' => self::TYPE_ADVENTURE_SPORTS,
+            'Spiritual/Pilgrimage Guide' => self::TYPE_SPIRITUAL_PILGRIMAGE,
+            'Photography Guide' => self::TYPE_PHOTOGRAPHY,
+        ];
     }
 
     /** @return array<int, string> */

@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -25,7 +26,7 @@ class GuideCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex(),
             TextField::new('name'),
             AssociationField::new('supplier')->setRequired(false),
-            TextField::new('guideType')->hideOnIndex(),
+            ChoiceField::new('guideType')->setChoices(Guide::getGuideTypeChoices())->hideOnIndex(),
             ArrayField::new('languages')->hideOnIndex(),
             ArrayField::new('regionsSupported')->hideOnIndex(),
             MoneyField::new('dailyRateFrom')->setCurrency('USD')->setNumDecimals(0)->hideOnIndex(),

@@ -19,6 +19,13 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'supplier')]
 class Supplier
 {
+    public const TYPE_AGENCY = 'agency';
+    public const TYPE_PRIVATE = 'private';
+    public const TYPE_HOTEL = 'hotel';
+    public const TYPE_GUIDE_COMPANY = 'guide_company';
+    public const TYPE_TRANSPORT_COMPANY = 'transport_company';
+    public const TYPE_ADVENTURE_OPERATOR = 'adventure_operator';
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column(type: Types::INTEGER)]
@@ -38,6 +45,9 @@ class Supplier
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $contactPhone = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $website = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $notes = null;
@@ -121,6 +131,19 @@ class Supplier
         return $this;
     }
 
+    /** @return array<string, string> */
+    public static function getSupplierTypeChoices(): array
+    {
+        return [
+            'Agency' => self::TYPE_AGENCY,
+            'Private' => self::TYPE_PRIVATE,
+            'Hotel' => self::TYPE_HOTEL,
+            'Guide Company' => self::TYPE_GUIDE_COMPANY,
+            'Transport Company' => self::TYPE_TRANSPORT_COMPANY,
+            'Adventure Operator' => self::TYPE_ADVENTURE_OPERATOR,
+        ];
+    }
+
     public function getContactName(): ?string
     {
         return $this->contactName;
@@ -151,6 +174,17 @@ class Supplier
     public function setContactPhone(?string $contactPhone): static
     {
         $this->contactPhone = $contactPhone;
+        return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): static
+    {
+        $this->website = $website;
         return $this;
     }
 

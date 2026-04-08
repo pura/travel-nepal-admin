@@ -6,6 +6,7 @@ use App\Entity\TransportService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -24,8 +25,8 @@ class TransportServiceCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex(),
             TextField::new('name'),
             AssociationField::new('supplier')->setRequired(false),
-            TextField::new('serviceType')->hideOnIndex(),
-            TextField::new('vehicleType')->hideOnIndex(),
+            ChoiceField::new('serviceType')->setChoices(TransportService::getServiceTypeChoices())->hideOnIndex(),
+            ChoiceField::new('vehicleType')->setChoices(TransportService::getVehicleTypeChoices())->hideOnIndex(),
             IntegerField::new('capacity')->hideOnIndex(),
             TextField::new('baseArea')->hideOnIndex(),
             TextareaField::new('priceNotes')->hideOnIndex(),
