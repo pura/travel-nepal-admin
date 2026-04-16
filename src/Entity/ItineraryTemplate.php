@@ -32,6 +32,10 @@ class ItineraryTemplate
     public const COMFORT_STANDARD = 'standard';
     public const COMFORT_PREMIUM = 'premium';
 
+    public const BUDGET_BUDGET = 'budget';
+    public const BUDGET_MID_RANGE = 'mid_range';
+    public const BUDGET_PREMIUM = 'premium';
+
     public const DIFFICULTY_EASY = 'easy';
     public const DIFFICULTY_MODERATE = 'moderate';
     public const DIFFICULTY_CHALLENGING = 'challenging';
@@ -199,6 +203,16 @@ class ItineraryTemplate
     {
         $this->budgetLevel = $budgetLevel;
         return $this;
+    }
+
+    /** @return array<string, string> */
+    public static function getBudgetLevelChoices(): array
+    {
+        return [
+            'Budget' => self::BUDGET_BUDGET,
+            'Mid-range' => self::BUDGET_MID_RANGE,
+            'Premium' => self::BUDGET_PREMIUM,
+        ];
     }
 
     public function getComfortLevel(): ?string

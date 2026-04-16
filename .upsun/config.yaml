@@ -1,0 +1,58 @@
+# Upsun (Symfony stack) — project infrastructure as code.
+# Docs: https://developer.upsun.com/docs/get-started/stacks/symfony
+#       https://developer.upsun.com/docs/add-services/mysql
+#
+# After pushing: set any project-specific secrets via the Upsun console or CLI
+# (APP_* overrides are handled by the Symfony integration where applicable).
+
+applications:
+  app:
+    type: 'php:{{version:php:latest}}'
+    disk: 2048
+
+    relationships:
+      database:
+        service: database
+        endpoint: mysql
+
+    # Writable paths (ephemeral on Upsun unless mounted).
+    mounts:
+      'var/cache':
+        source: local
+        source_path: cache
+      'var/log':
+        source: local
+        source_path: log
+      'var/share':
+        source: local
+        source_path: share
+
+    web:
+      locations:
+        '/':
+          root: 'public'
+          passthru: '/index.php'
+          expires: -1
+          allow: true
+
+    # Symfony integration: installs configurator, warms cache at build, migrates on deploy.
+    hooks:
+      build: |
+        set -e -x
+        curl -fs https://get.symfony.com/cloud/configurator | bash
+        symfony-build
+
+      deploy: |
+        set -e -x
+        symfony-deploy
+
+services:
+  database:
+    type: 'mariadb:{{version:mariadb:latest}}'
+    disk: 2048
+
+routes:
+  # `{all}` includes production default hostnames and preview environment URLs.
+  "https://{all}/":
+    type: upstream
+    upstream: "app:http"

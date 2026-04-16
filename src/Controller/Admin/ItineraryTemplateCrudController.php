@@ -30,7 +30,9 @@ class ItineraryTemplateCrudController extends AbstractCrudController
             AssociationField::new('startingRegion')->setRequired(false),
             ChoiceField::new('tripType')->setChoices(ItineraryTemplate::getTripTypeChoices())->hideOnIndex(),
             IntegerField::new('durationDays')->hideOnIndex(),
-            TextField::new('budgetLevel')->hideOnIndex(),
+            ChoiceField::new('budgetLevel')
+                ->setChoices(ItineraryTemplate::getBudgetLevelChoices())
+                ->hideOnIndex(),
             ChoiceField::new('comfortLevel')
                 ->setChoices(ItineraryTemplate::getComfortLevelChoices())
                 ->setLabel('Comfort Level (3 levels)')
