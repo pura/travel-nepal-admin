@@ -85,16 +85,17 @@ RUN composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scri
 # copy sources
 COPY --link --exclude=frankenphp/ . ./
 
-RUN <<-EOF
-	mkdir -p var/cache var/log var/share
-	composer dump-autoload --classmap-authoritative --no-dev
-	composer dump-env prod
-	composer run-script --no-dev post-install-cmd
-	if [ -f importmap.php ]; then
-		php bin/console asset-map:compile
-	fi
-	chmod +x bin/console; sync
-EOF
+# Split steps so build logs show exactly which command failed (e.g. on Dokploy).
+RUN mkdir -p var/cache var/log var/share \
+	&& composer dump-autoload --classmap-authoritative --no-dev
+
+RUN composer dump-env prod
+
+RUN composer run-script --no-dev post-install-cmd
+
+RUN if [ -f importmap.php ]; then php bin/console asset-map:compile; fi \
+	&& chmod +x bin/console \
+	&& sync
 
 # Collect shared libraries needed by FrankenPHP and PHP extensions
 # hadolint ignore=DL3008,SC3054,DL4006
