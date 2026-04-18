@@ -6,6 +6,8 @@ services:
       database:
         condition: service_healthy
     environment:
+      # Passed through to frankenphp/Caddyfile (see frankenphp/Caddyfile); set in deploy env e.g. Dokploy
+      CADDY_GLOBAL_OPTIONS: ${CADDY_GLOBAL_OPTIONS:-}
       SERVER_NAME: ${SERVER_NAME:-localhost}, php:80
       DEFAULT_URI: https://${SERVER_NAME:-localhost}:${HTTPS_PORT:-443}
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
