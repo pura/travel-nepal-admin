@@ -8,6 +8,13 @@ framework:
     #esi: true
     #fragments: true
 
+when@prod:
+    framework:
+        # Dokploy / Traefik on Docker: trust proxy headers from private subnets only.
+        trusted_proxies: 'PRIVATE_SUBNETS'
+        trusted_headers:
+            - !php/const Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_TRAEFIK
+
 when@test:
     framework:
         test: true

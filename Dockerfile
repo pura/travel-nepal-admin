@@ -85,6 +85,13 @@ RUN composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scri
 # copy sources
 COPY --link --exclude=frankenphp/ . ./
 
+# Deploy hosts may merge `CADDY_GLOBAL_OPTIONS=...` into `.env`; spaces break Dotenv during
+# `composer dump-env prod`. Runtime value is set in compose.prod.yaml instead.
+RUN if [ -f .env ]; then sed -i '/^CADDY_GLOBAL_OPTIONS=/d' .env; fi
+
+# Build-only URL for `cache:clear` when Git has no DATABASE_URL (Dokploy secrets). Runtime uses MySQL from Compose.
+ENV DATABASE_URL="sqlite:////app/var/build.db"
+
 # Split steps so build logs show exactly which command failed (e.g. on Dokploy).
 RUN mkdir -p var/cache var/log var/share \
 	&& composer dump-autoload --classmap-authoritative --no-dev
