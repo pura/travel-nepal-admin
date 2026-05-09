@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\EasyAdmin\Field\StringLinesField;
 use App\Entity\ItineraryTemplate;
 use App\Form\Type\StringLinesArrayType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -43,7 +44,9 @@ class ItineraryTemplateCrudController extends AbstractCrudController
                 ->setChoices(ItineraryTemplate::getDifficultyLevelChoices())
                 ->setLabel('Difficulty Level (3 levels)')
                 ->hideOnIndex(),
-            TextareaField::new('interestTags', 'Interest tags')
+            // StringLinesField (not EasyAdmin Field): JSON columns are auto-upgraded to ArrayField + CollectionType options,
+            // which break StringLinesArrayType. Not TextareaField either: TextConfigurator rejects arrays.
+            StringLinesField::new('interestTags', 'Interest tags')
                 ->setFormType(StringLinesArrayType::class)
                 ->setHelp('One tag per line (any text). Shown on the public site and in export.')
                 ->formatValue(static function (mixed $v): string {
@@ -72,7 +75,7 @@ class ItineraryTemplateCrudController extends AbstractCrudController
             TextField::new('heroImageUrl', 'Hero image URL (optional)')
                 ->setHelp('Full https URL if you prefer not to upload. When set, export uses this instead of the uploaded file.')
                 ->hideOnIndex(),
-            TextareaField::new('galleryImageUrls', 'Gallery images')
+            StringLinesField::new('galleryImageUrls', 'Gallery images')
                 ->setFormType(StringLinesArrayType::class)
                 ->setHelp('One full URL or site-relative path per line (paths are prefixed with PUBLIC_BASE_URL on export).')
                 ->formatValue(static function (mixed $v): string {
@@ -86,7 +89,7 @@ class ItineraryTemplateCrudController extends AbstractCrudController
             IntegerField::new('totalDistanceKm')->hideOnIndex(),
             IntegerField::new('altitudeMaxM')->hideOnIndex(),
             IntegerField::new('altitudeMinM')->hideOnIndex(),
-            TextareaField::new('servicesIncluded', 'Included services')
+            StringLinesField::new('servicesIncluded', 'Included services')
                 ->setFormType(StringLinesArrayType::class)
                 ->setHelp('One bullet per line. Exported under services.included.')
                 ->formatValue(static function (mixed $v): string {
@@ -97,7 +100,7 @@ class ItineraryTemplateCrudController extends AbstractCrudController
                     return (string) \count($v).' line(s)';
                 })
                 ->hideOnIndex(),
-            TextareaField::new('servicesExcluded', 'Excluded services')
+            StringLinesField::new('servicesExcluded', 'Excluded services')
                 ->setFormType(StringLinesArrayType::class)
                 ->setHelp('One bullet per line. Exported under services.excluded.')
                 ->formatValue(static function (mixed $v): string {
@@ -108,7 +111,7 @@ class ItineraryTemplateCrudController extends AbstractCrudController
                     return (string) \count($v).' line(s)';
                 })
                 ->hideOnIndex(),
-            TextareaField::new('servicesOptional', 'Optional add-ons')
+            StringLinesField::new('servicesOptional', 'Optional add-ons')
                 ->setFormType(StringLinesArrayType::class)
                 ->setHelp('One bullet per line. Exported under services.optional.')
                 ->formatValue(static function (mixed $v): string {
