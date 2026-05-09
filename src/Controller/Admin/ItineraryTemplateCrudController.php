@@ -10,7 +10,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -44,10 +43,16 @@ class ItineraryTemplateCrudController extends AbstractCrudController
                 ->setChoices(ItineraryTemplate::getDifficultyLevelChoices())
                 ->setLabel('Difficulty Level (3 levels)')
                 ->hideOnIndex(),
-            Field::new('interestTags', 'Interest tags')
+            TextareaField::new('interestTags', 'Interest tags')
                 ->setFormType(StringLinesArrayType::class)
                 ->setHelp('One tag per line (any text). Shown on the public site and in export.')
-                ->formatValue(static fn (?array $v): string => null !== $v && [] !== $v ? implode(', ', $v) : '—'),
+                ->formatValue(static function (mixed $v): string {
+                    if (!\is_array($v) || [] === $v) {
+                        return '—';
+                    }
+
+                    return implode(', ', array_map(static fn (mixed $x): string => (string) $x, $v));
+                }),
             TextareaField::new('summary')->hideOnIndex(),
             TextareaField::new('description')
                 ->setHelp('Long description for the public trip page and export.')
@@ -59,6 +64,7 @@ class ItineraryTemplateCrudController extends AbstractCrudController
                 ->setHelp('ISO code, e.g. GBP, USD, EUR, NPR.')
                 ->hideOnIndex(),
             ImageField::new('heroImagePath', 'Hero image (upload)')
+                ->setRequired(false)
                 ->setUploadDir('public/uploads/itinerary-hero')
                 ->setBasePath('uploads/itinerary-hero')
                 ->setUploadedFileNamePattern('[uuid].[extension]')
@@ -66,33 +72,58 @@ class ItineraryTemplateCrudController extends AbstractCrudController
             TextField::new('heroImageUrl', 'Hero image URL (optional)')
                 ->setHelp('Full https URL if you prefer not to upload. When set, export uses this instead of the uploaded file.')
                 ->hideOnIndex(),
-            Field::new('galleryImageUrls', 'Gallery images')
+            TextareaField::new('galleryImageUrls', 'Gallery images')
                 ->setFormType(StringLinesArrayType::class)
                 ->setHelp('One full URL or site-relative path per line (paths are prefixed with PUBLIC_BASE_URL on export).')
-                ->formatValue(static fn (?array $v): string => null !== $v && [] !== $v ? (string) \count($v).' image(s)' : '—')
+                ->formatValue(static function (mixed $v): string {
+                    if (!\is_array($v) || [] === $v) {
+                        return '—';
+                    }
+
+                    return (string) \count($v).' image(s)';
+                })
                 ->hideOnIndex(),
             IntegerField::new('totalDistanceKm')->hideOnIndex(),
             IntegerField::new('altitudeMaxM')->hideOnIndex(),
             IntegerField::new('altitudeMinM')->hideOnIndex(),
-            Field::new('servicesIncluded', 'Included services')
+            TextareaField::new('servicesIncluded', 'Included services')
                 ->setFormType(StringLinesArrayType::class)
                 ->setHelp('One bullet per line. Exported under services.included.')
-                ->formatValue(static fn (?array $v): string => null !== $v && [] !== $v ? (string) \count($v).' line(s)' : '—')
+                ->formatValue(static function (mixed $v): string {
+                    if (!\is_array($v) || [] === $v) {
+                        return '—';
+                    }
+
+                    return (string) \count($v).' line(s)';
+                })
                 ->hideOnIndex(),
-            Field::new('servicesExcluded', 'Excluded services')
+            TextareaField::new('servicesExcluded', 'Excluded services')
                 ->setFormType(StringLinesArrayType::class)
                 ->setHelp('One bullet per line. Exported under services.excluded.')
-                ->formatValue(static fn (?array $v): string => null !== $v && [] !== $v ? (string) \count($v).' line(s)' : '—')
+                ->formatValue(static function (mixed $v): string {
+                    if (!\is_array($v) || [] === $v) {
+                        return '—';
+                    }
+
+                    return (string) \count($v).' line(s)';
+                })
                 ->hideOnIndex(),
-            Field::new('servicesOptional', 'Optional add-ons')
+            TextareaField::new('servicesOptional', 'Optional add-ons')
                 ->setFormType(StringLinesArrayType::class)
                 ->setHelp('One bullet per line. Exported under services.optional.')
-                ->formatValue(static fn (?array $v): string => null !== $v && [] !== $v ? (string) \count($v).' line(s)' : '—')
+                ->formatValue(static function (mixed $v): string {
+                    if (!\is_array($v) || [] === $v) {
+                        return '—';
+                    }
+
+                    return (string) \count($v).' line(s)';
+                })
                 ->hideOnIndex(),
             BooleanField::new('isActive'),
             CollectionField::new('days')
                 ->useEntryCrudForm(ItineraryTemplateDayCrudController::class)
                 ->setEntryIsComplex(true)
+                ->renderExpanded(true)
                 ->onlyOnForms(),
             AssociationField::new('days')->onlyOnDetail(),
             DateTimeField::new('createdAt')->onlyOnDetail(),

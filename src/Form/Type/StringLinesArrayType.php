@@ -18,12 +18,21 @@ final class StringLinesArrayType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new CallbackTransformer(
-            function (?array $model): string {
+            function (mixed $model): string {
                 if (null === $model || [] === $model) {
                     return '';
                 }
 
-                return implode("\n", $model);
+                if (!\is_array($model)) {
+                    return trim((string) $model);
+                }
+
+                $strings = [];
+                foreach ($model as $item) {
+                    $strings[] = trim((string) $item);
+                }
+
+                return implode("\n", array_filter($strings, static fn (string $s): bool => $s !== ''));
             },
             function (mixed $view): array {
                 if (!\is_string($view) || '' === trim($view)) {

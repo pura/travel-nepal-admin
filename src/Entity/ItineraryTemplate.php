@@ -81,9 +81,9 @@ class ItineraryTemplate
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $difficultyLevel = null;
 
-    /** @var array<int, string> */
+    /** @var array<int, string>|null */
     #[ORM\Column(type: Types::JSON, nullable: true)]
-    private array $interestTags = [];
+    private ?array $interestTags = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $summary = null;
@@ -302,13 +302,14 @@ class ItineraryTemplate
     /** @return array<int, string> */
     public function getInterestTags(): array
     {
-        return $this->interestTags;
+        return $this->interestTags ?? [];
     }
 
-    /** @param array<int, string> $interestTags */
-    public function setInterestTags(array $interestTags): static
+    /** @param array<int, string>|null $interestTags */
+    public function setInterestTags(?array $interestTags): static
     {
         $this->interestTags = $interestTags;
+
         return $this;
     }
 
