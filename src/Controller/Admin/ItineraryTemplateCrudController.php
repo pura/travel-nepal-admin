@@ -2,8 +2,10 @@
 
 namespace App\Controller\Admin;
 
+use App\EasyAdmin\Field\JsonBlobField;
 use App\EasyAdmin\Field\StringLinesField;
 use App\Entity\ItineraryTemplate;
+use App\Form\Type\JsonTextareaType;
 use App\Form\Type\StringLinesArrayType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -121,6 +123,62 @@ class ItineraryTemplateCrudController extends AbstractCrudController
 
                     return (string) \count($v).' line(s)';
                 })
+                ->hideOnIndex(),
+            StringLinesField::new('routeGrades', 'Route grades')
+                ->setFormType(StringLinesArrayType::class)
+                ->setHelp('One per line. Exported as routeGrades.')
+                ->formatValue(static fn (mixed $v): string => \is_array($v) && [] !== $v ? (string) \count($v).' grade(s)' : '—')
+                ->hideOnIndex(),
+            StringLinesField::new('fitnessNotes', 'Fitness notes')
+                ->setFormType(StringLinesArrayType::class)
+                ->setHelp('One per line.')
+                ->formatValue(static fn (mixed $v): string => \is_array($v) && [] !== $v ? (string) \count($v).' note(s)' : '—')
+                ->hideOnIndex(),
+            StringLinesField::new('recommendedSeasons', 'Recommended seasons')
+                ->setFormType(StringLinesArrayType::class)
+                ->setHelp('One per line (e.g. Autumn).')
+                ->formatValue(static fn (mixed $v): string => \is_array($v) && [] !== $v ? implode(', ', array_map(static fn (mixed $x): string => (string) $x, $v)) : '—')
+                ->hideOnIndex(),
+            TextField::new('mapImageUrl', 'Map image URL')
+                ->setHelp('Full URL for mapImageUrl in export.')
+                ->hideOnIndex(),
+            TextField::new('sourceReferenceUrl', 'Source / reference URL')
+                ->setHelp('Original listing URL.')
+                ->hideOnIndex(),
+            JsonBlobField::new('priceTable', 'Price table (JSON)')
+                ->setFormType(JsonTextareaType::class)
+                ->setHelp('Structured JSON matching PublicTrip.priceTable.')
+                ->formatValue(static function (mixed $v): string {
+                    if (!\is_array($v) || [] === $v) {
+                        return '—';
+                    }
+
+                    $s = json_encode($v, JSON_UNESCAPED_UNICODE);
+                    if (\strlen($s) > 100) {
+                        return \substr($s, 0, 97).'…';
+                    }
+
+                    return $s;
+                })
+                ->hideOnIndex(),
+            StringLinesField::new('bookingFeeItems', 'Booking fee items')
+                ->setFormType(StringLinesArrayType::class)
+                ->hideOnIndex(),
+            StringLinesField::new('gearChecklist', 'Gear checklist')
+                ->setFormType(StringLinesArrayType::class)
+                ->hideOnIndex(),
+            TextareaField::new('trekkingGradeNotes')
+                ->setHelp('Long notes for trekkingGradeNotes in export.')
+                ->hideOnIndex(),
+            JsonBlobField::new('faq', 'FAQ (JSON)')
+                ->setFormType(JsonTextareaType::class)
+                ->setHelp('Array of {question, answer} objects.')
+                ->formatValue(static fn (mixed $v): string => \is_array($v) && [] !== $v ? (string) \count($v).' item(s)' : '—')
+                ->hideOnIndex(),
+            JsonBlobField::new('reviewSnippets', 'Review snippets (JSON)')
+                ->setFormType(JsonTextareaType::class)
+                ->setHelp('Array of {name, location, date}.')
+                ->formatValue(static fn (mixed $v): string => \is_array($v) && [] !== $v ? (string) \count($v).' snippet(s)' : '—')
                 ->hideOnIndex(),
             BooleanField::new('isActive'),
             CollectionField::new('days')

@@ -46,6 +46,21 @@ class ItineraryTemplateDay
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $destinationName = null;
 
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $distanceKm = null;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $altitudeMaxM = null;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $altitudeMinM = null;
+
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
+    private ?float $durationHours = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $accommodation = null;
+
     #[ORM\ManyToOne(targetEntity: Destination::class, inversedBy: 'itineraryTemplateDays')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Destination $destination = null;
@@ -141,6 +156,61 @@ class ItineraryTemplateDay
     public function setDestinationName(?string $destinationName): static
     {
         $this->destinationName = $destinationName;
+        return $this;
+    }
+
+    public function getDistanceKm(): ?int
+    {
+        return $this->distanceKm;
+    }
+
+    public function setDistanceKm(?int $distanceKm): static
+    {
+        $this->distanceKm = $distanceKm;
+        return $this;
+    }
+
+    public function getAltitudeMaxM(): ?int
+    {
+        return $this->altitudeMaxM;
+    }
+
+    public function setAltitudeMaxM(?int $altitudeMaxM): static
+    {
+        $this->altitudeMaxM = $altitudeMaxM;
+        return $this;
+    }
+
+    public function getAltitudeMinM(): ?int
+    {
+        return $this->altitudeMinM;
+    }
+
+    public function setAltitudeMinM(?int $altitudeMinM): static
+    {
+        $this->altitudeMinM = $altitudeMinM;
+        return $this;
+    }
+
+    public function getDurationHours(): ?float
+    {
+        return $this->durationHours;
+    }
+
+    public function setDurationHours(?float $durationHours): static
+    {
+        $this->durationHours = $durationHours;
+        return $this;
+    }
+
+    public function getAccommodation(): ?string
+    {
+        return $this->accommodation;
+    }
+
+    public function setAccommodation(?string $accommodation): static
+    {
+        $this->accommodation = $accommodation;
         return $this;
     }
 

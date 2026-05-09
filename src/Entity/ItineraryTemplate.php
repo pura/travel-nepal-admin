@@ -130,6 +130,47 @@ class ItineraryTemplate
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $servicesOptional = null;
 
+    /** @var list<string>|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $routeGrades = null;
+
+    /** @var list<string>|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $fitnessNotes = null;
+
+    /** @var list<string>|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $recommendedSeasons = null;
+
+    #[ORM\Column(type: Types::STRING, length: 2048, nullable: true)]
+    private ?string $mapImageUrl = null;
+
+    #[ORM\Column(type: Types::STRING, length: 2048, nullable: true)]
+    private ?string $sourceReferenceUrl = null;
+
+    /** @var array<string, mixed>|null PublicTrip.priceTable */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $priceTable = null;
+
+    /** @var list<string>|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $bookingFeeItems = null;
+
+    /** @var list<string>|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $gearChecklist = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $trekkingGradeNotes = null;
+
+    /** @var list<array{question: string, answer: string}>|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $faq = null;
+
+    /** @var list<array{name: string, location: string, date: string}>|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $reviewSnippets = null;
+
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => true])]
     private bool $isActive = true;
 
@@ -478,6 +519,143 @@ class ItineraryTemplate
     public function setServicesOptional(?array $servicesOptional): static
     {
         $this->servicesOptional = $servicesOptional;
+        return $this;
+    }
+
+    /** @return list<string> */
+    public function getRouteGrades(): array
+    {
+        return $this->routeGrades ?? [];
+    }
+
+    /** @param list<string>|null $routeGrades */
+    public function setRouteGrades(?array $routeGrades): static
+    {
+        $this->routeGrades = $routeGrades;
+        return $this;
+    }
+
+    /** @return list<string> */
+    public function getFitnessNotes(): array
+    {
+        return $this->fitnessNotes ?? [];
+    }
+
+    /** @param list<string>|null $fitnessNotes */
+    public function setFitnessNotes(?array $fitnessNotes): static
+    {
+        $this->fitnessNotes = $fitnessNotes;
+        return $this;
+    }
+
+    /** @return list<string> */
+    public function getRecommendedSeasons(): array
+    {
+        return $this->recommendedSeasons ?? [];
+    }
+
+    /** @param list<string>|null $recommendedSeasons */
+    public function setRecommendedSeasons(?array $recommendedSeasons): static
+    {
+        $this->recommendedSeasons = $recommendedSeasons;
+        return $this;
+    }
+
+    public function getMapImageUrl(): ?string
+    {
+        return $this->mapImageUrl;
+    }
+
+    public function setMapImageUrl(?string $mapImageUrl): static
+    {
+        $this->mapImageUrl = $mapImageUrl;
+        return $this;
+    }
+
+    public function getSourceReferenceUrl(): ?string
+    {
+        return $this->sourceReferenceUrl;
+    }
+
+    public function setSourceReferenceUrl(?string $sourceReferenceUrl): static
+    {
+        $this->sourceReferenceUrl = $sourceReferenceUrl;
+        return $this;
+    }
+
+    /** @return array<string, mixed>|null */
+    public function getPriceTable(): ?array
+    {
+        return $this->priceTable;
+    }
+
+    /** @param array<string, mixed>|null $priceTable */
+    public function setPriceTable(?array $priceTable): static
+    {
+        $this->priceTable = $priceTable;
+        return $this;
+    }
+
+    /** @return list<string> */
+    public function getBookingFeeItems(): array
+    {
+        return $this->bookingFeeItems ?? [];
+    }
+
+    /** @param list<string>|null $bookingFeeItems */
+    public function setBookingFeeItems(?array $bookingFeeItems): static
+    {
+        $this->bookingFeeItems = $bookingFeeItems;
+        return $this;
+    }
+
+    /** @return list<string> */
+    public function getGearChecklist(): array
+    {
+        return $this->gearChecklist ?? [];
+    }
+
+    /** @param list<string>|null $gearChecklist */
+    public function setGearChecklist(?array $gearChecklist): static
+    {
+        $this->gearChecklist = $gearChecklist;
+        return $this;
+    }
+
+    public function getTrekkingGradeNotes(): ?string
+    {
+        return $this->trekkingGradeNotes;
+    }
+
+    public function setTrekkingGradeNotes(?string $trekkingGradeNotes): static
+    {
+        $this->trekkingGradeNotes = $trekkingGradeNotes;
+        return $this;
+    }
+
+    /** @return list<array{question: string, answer: string}> */
+    public function getFaq(): array
+    {
+        return $this->faq ?? [];
+    }
+
+    /** @param list<array{question: string, answer: string}>|null $faq */
+    public function setFaq(?array $faq): static
+    {
+        $this->faq = $faq;
+        return $this;
+    }
+
+    /** @return list<array{name: string, location: string, date: string}> */
+    public function getReviewSnippets(): array
+    {
+        return $this->reviewSnippets ?? [];
+    }
+
+    /** @param list<array{name: string, location: string, date: string}>|null $reviewSnippets */
+    public function setReviewSnippets(?array $reviewSnippets): static
+    {
+        $this->reviewSnippets = $reviewSnippets;
         return $this;
     }
 

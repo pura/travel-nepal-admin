@@ -9,7 +9,6 @@ use App\Entity\ItineraryTemplateDay;
 
 /**
  * Maps {@see ItineraryTemplate} (+ days) to a structure aligned with the frontend PublicTrip type.
- * Frontend-only spreads (e.g. ...FALLBACK_DETAIL_MOCK_*) are not included; merge those in your app after import.
  */
 final class PublicTripExportNormalizer
 {
@@ -44,9 +43,14 @@ final class PublicTripExportNormalizer
         $gallery = [];
         foreach ($t->getGalleryImageUrls() as $line) {
             $resolved = $this->resolvePublicUrl($line);
-            if (null !== $resolved && '' !== $resolved) {
+            if ('' !== $resolved) {
                 $gallery[] = $resolved;
             }
+        }
+
+        $mapImageUrl = null;
+        if (null !== $t->getMapImageUrl() && '' !== $t->getMapImageUrl()) {
+            $mapImageUrl = $this->resolvePublicUrl($t->getMapImageUrl());
         }
 
         $days = [];
@@ -54,7 +58,7 @@ final class PublicTripExportNormalizer
             $days[] = $this->normalizeDay($day);
         }
 
-        return [
+        $out = [
             'id' => $t->getId(),
             'slug' => $t->getSlug(),
             'title' => $t->getTitle(),
@@ -83,6 +87,62 @@ final class PublicTripExportNormalizer
             ],
             'days' => $days,
         ];
+
+        $routeGrades = $t->getRouteGrades();
+        if ([] !== $routeGrades) {
+            $out['routeGrades'] = array_values($routeGrades);
+        }
+
+        $fitnessNotes = $t->getFitnessNotes();
+        if ([] !== $fitnessNotes) {
+            $out['fitnessNotes'] = array_values($fitnessNotes);
+        }
+
+        $seasons = $t->getRecommendedSeasons();
+        if ([] !== $seasons) {
+            $out['recommendedSeasons'] = array_values($seasons);
+        }
+
+        if (null !== $mapImageUrl) {
+            $out['mapImageUrl'] = $mapImageUrl;
+        }
+
+        $sourceRef = $t->getSourceReferenceUrl();
+        if (null !== $sourceRef && '' !== $sourceRef) {
+            $out['sourceReferenceUrl'] = $sourceRef;
+        }
+
+        $priceTable = $t->getPriceTable();
+        if (null !== $priceTable && [] !== $priceTable) {
+            $out['priceTable'] = $priceTable;
+        }
+
+        $bookingFee = $t->getBookingFeeItems();
+        if ([] !== $bookingFee) {
+            $out['bookingFeeItems'] = array_values($bookingFee);
+        }
+
+        $gear = $t->getGearChecklist();
+        if ([] !== $gear) {
+            $out['gearChecklist'] = array_values($gear);
+        }
+
+        $trekNotes = $t->getTrekkingGradeNotes();
+        if (null !== $trekNotes && '' !== $trekNotes) {
+            $out['trekkingGradeNotes'] = $trekNotes;
+        }
+
+        $faq = $t->getFaq();
+        if ([] !== $faq) {
+            $out['faq'] = array_values($faq);
+        }
+
+        $reviews = $t->getReviewSnippets();
+        if ([] !== $reviews) {
+            $out['reviewSnippets'] = array_values($reviews);
+        }
+
+        return $out;
     }
 
     /**
@@ -138,6 +198,26 @@ final class PublicTripExportNormalizer
 
         if (null !== $d->getMeals() && '' !== $d->getMeals()) {
             $row['meals'] = $d->getMeals();
+        }
+
+        if (null !== $d->getDistanceKm()) {
+            $row['distanceKm'] = $d->getDistanceKm();
+        }
+
+        if (null !== $d->getAltitudeMaxM()) {
+            $row['altitudeMaxM'] = $d->getAltitudeMaxM();
+        }
+
+        if (null !== $d->getAltitudeMinM()) {
+            $row['altitudeMinM'] = $d->getAltitudeMinM();
+        }
+
+        if (null !== $d->getDurationHours()) {
+            $row['durationHours'] = $d->getDurationHours();
+        }
+
+        if (null !== $d->getAccommodation() && '' !== $d->getAccommodation()) {
+            $row['accommodation'] = $d->getAccommodation();
         }
 
         return $row;

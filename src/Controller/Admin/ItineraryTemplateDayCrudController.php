@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -40,7 +41,10 @@ class ItineraryTemplateDayCrudController extends AbstractCrudController
      * When embedded in an itinerary edit form, do not call hideOnIndex() — EasyAdmin applies that
      * to collection rows and would strip fields from the parent form.
      */
-    private function compactDayIndexColumns(TextareaField|TextField $field): TextareaField|TextField
+    /**
+     * @return TextareaField|TextField|IntegerField|NumberField
+     */
+    private function compactDayIndexColumns(TextareaField|TextField|IntegerField|NumberField $field): TextareaField|TextField|IntegerField|NumberField
     {
         if (!$this->isEmbeddedInItineraryTemplateForm()) {
             $field->hideOnIndex();
@@ -72,6 +76,13 @@ class ItineraryTemplateDayCrudController extends AbstractCrudController
             TextField::new('destinationName')
                 ->setHelp('Plain name for export (e.g. Kathmandu). If empty, the linked Destination name is used.'),
         );
+        yield IntegerField::new('distanceKm')->setLabel('Distance (km)');
+        yield IntegerField::new('altitudeMaxM')->setLabel('Day altitude max (m)');
+        yield IntegerField::new('altitudeMinM')->setLabel('Day altitude min (m)');
+        yield NumberField::new('durationHours')
+            ->setLabel('Duration (hours)')
+            ->setNumDecimals(2);
+        yield TextField::new('accommodation')->setHelp('e.g. Tea house / mountain lodge');
         yield AssociationField::new('destination')->setRequired(false)->autocomplete();
         yield $this->compactDayIndexColumns(TextField::new('hotelCategory'));
         yield $this->compactDayIndexColumns(TextField::new('transportType'));
