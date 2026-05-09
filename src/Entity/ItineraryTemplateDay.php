@@ -34,6 +34,18 @@ class ItineraryTemplateDay
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $details = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $meals = null;
+
+    /**
+     * Display name for public export (e.g. "Kathmandu"). If empty, the linked Destination name is used when set.
+     */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $destinationName = null;
+
     #[ORM\ManyToOne(targetEntity: Destination::class, inversedBy: 'itineraryTemplateDays')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Destination $destination = null;
@@ -96,6 +108,39 @@ class ItineraryTemplateDay
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+        return $this;
+    }
+
+    public function getDetails(): ?string
+    {
+        return $this->details;
+    }
+
+    public function setDetails(?string $details): static
+    {
+        $this->details = $details;
+        return $this;
+    }
+
+    public function getMeals(): ?string
+    {
+        return $this->meals;
+    }
+
+    public function setMeals(?string $meals): static
+    {
+        $this->meals = $meals;
+        return $this;
+    }
+
+    public function getDestinationName(): ?string
+    {
+        return $this->destinationName;
+    }
+
+    public function setDestinationName(?string $destinationName): static
+    {
+        $this->destinationName = $destinationName;
         return $this;
     }
 

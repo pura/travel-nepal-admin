@@ -88,6 +88,48 @@ class ItineraryTemplate
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $summary = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(type: Types::STRING, length: 32, nullable: true)]
+    private ?string $priceAmount = null;
+
+    #[ORM\Column(type: Types::STRING, length: 8, nullable: true)]
+    private ?string $priceCurrency = null;
+
+    /** Full image URL (e.g. CDN or Unsplash); takes precedence over heroImagePath in export when set. */
+    #[ORM\Column(type: Types::STRING, length: 2048, nullable: true)]
+    private ?string $heroImageUrl = null;
+
+    /** Path relative to /public (e.g. uploads/itinerary-hero/uuid.jpg) when using admin upload. */
+    #[ORM\Column(type: Types::STRING, length: 512, nullable: true)]
+    private ?string $heroImagePath = null;
+
+    /** @var list<string>|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $galleryImageUrls = null;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $totalDistanceKm = null;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $altitudeMaxM = null;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $altitudeMinM = null;
+
+    /** @var list<string>|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $servicesIncluded = null;
+
+    /** @var list<string>|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $servicesExcluded = null;
+
+    /** @var list<string>|null */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $servicesOptional = null;
+
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => true])]
     private bool $isActive = true;
 
@@ -295,6 +337,146 @@ class ItineraryTemplate
     public function setSummary(?string $summary): static
     {
         $this->summary = $summary;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getPriceAmount(): ?string
+    {
+        return $this->priceAmount;
+    }
+
+    public function setPriceAmount(?string $priceAmount): static
+    {
+        $this->priceAmount = $priceAmount;
+        return $this;
+    }
+
+    public function getPriceCurrency(): ?string
+    {
+        return $this->priceCurrency;
+    }
+
+    public function setPriceCurrency(?string $priceCurrency): static
+    {
+        $this->priceCurrency = $priceCurrency;
+        return $this;
+    }
+
+    public function getHeroImageUrl(): ?string
+    {
+        return $this->heroImageUrl;
+    }
+
+    public function setHeroImageUrl(?string $heroImageUrl): static
+    {
+        $this->heroImageUrl = $heroImageUrl;
+        return $this;
+    }
+
+    public function getHeroImagePath(): ?string
+    {
+        return $this->heroImagePath;
+    }
+
+    public function setHeroImagePath(?string $heroImagePath): static
+    {
+        $this->heroImagePath = $heroImagePath;
+        return $this;
+    }
+
+    /** @return list<string> */
+    public function getGalleryImageUrls(): array
+    {
+        return $this->galleryImageUrls ?? [];
+    }
+
+    /** @param list<string>|null $galleryImageUrls */
+    public function setGalleryImageUrls(?array $galleryImageUrls): static
+    {
+        $this->galleryImageUrls = $galleryImageUrls;
+        return $this;
+    }
+
+    public function getTotalDistanceKm(): ?int
+    {
+        return $this->totalDistanceKm;
+    }
+
+    public function setTotalDistanceKm(?int $totalDistanceKm): static
+    {
+        $this->totalDistanceKm = $totalDistanceKm;
+        return $this;
+    }
+
+    public function getAltitudeMaxM(): ?int
+    {
+        return $this->altitudeMaxM;
+    }
+
+    public function setAltitudeMaxM(?int $altitudeMaxM): static
+    {
+        $this->altitudeMaxM = $altitudeMaxM;
+        return $this;
+    }
+
+    public function getAltitudeMinM(): ?int
+    {
+        return $this->altitudeMinM;
+    }
+
+    public function setAltitudeMinM(?int $altitudeMinM): static
+    {
+        $this->altitudeMinM = $altitudeMinM;
+        return $this;
+    }
+
+    /** @return list<string> */
+    public function getServicesIncluded(): array
+    {
+        return $this->servicesIncluded ?? [];
+    }
+
+    /** @param list<string>|null $servicesIncluded */
+    public function setServicesIncluded(?array $servicesIncluded): static
+    {
+        $this->servicesIncluded = $servicesIncluded;
+        return $this;
+    }
+
+    /** @return list<string> */
+    public function getServicesExcluded(): array
+    {
+        return $this->servicesExcluded ?? [];
+    }
+
+    /** @param list<string>|null $servicesExcluded */
+    public function setServicesExcluded(?array $servicesExcluded): static
+    {
+        $this->servicesExcluded = $servicesExcluded;
+        return $this;
+    }
+
+    /** @return list<string> */
+    public function getServicesOptional(): array
+    {
+        return $this->servicesOptional ?? [];
+    }
+
+    /** @param list<string>|null $servicesOptional */
+    public function setServicesOptional(?array $servicesOptional): static
+    {
+        $this->servicesOptional = $servicesOptional;
         return $this;
     }
 

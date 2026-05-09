@@ -46,6 +46,15 @@ class ItineraryTemplateDayCrudController extends AbstractCrudController
         yield IntegerField::new('dayNumber');
         yield TextField::new('title');
         yield TextareaField::new('description')->hideOnIndex();
+        yield TextareaField::new('details')
+            ->setHelp('Long narrative for this day (public/export). If empty, Activity notes is used on export.')
+            ->hideOnIndex();
+        yield TextField::new('meals')
+            ->setHelp('e.g. "Meals: Breakfast, Lunch, Dinner"')
+            ->hideOnIndex();
+        yield TextField::new('destinationName')
+            ->setHelp('Plain name for export (e.g. Kathmandu). If empty, the linked Destination name is used.')
+            ->hideOnIndex();
         yield AssociationField::new('destination')->setRequired(false)->autocomplete();
         yield TextField::new('hotelCategory')->hideOnIndex();
         yield TextField::new('transportType')->hideOnIndex();
