@@ -21,31 +21,52 @@ final class Version20260509183000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql(<<<'SQL'
-            ALTER TABLE itinerary_template
-                ADD route_grades JSON DEFAULT NULL,
-                ADD fitness_notes JSON DEFAULT NULL,
-                ADD recommended_seasons JSON DEFAULT NULL,
-                ADD map_image_url VARCHAR(2048) DEFAULT NULL,
-                ADD source_reference_url VARCHAR(2048) DEFAULT NULL,
-                ADD price_table JSON DEFAULT NULL,
-                ADD booking_fee_items JSON DEFAULT NULL,
-                ADD gear_checklist JSON DEFAULT NULL,
-                ADD trekking_grade_notes LONGTEXT DEFAULT NULL,
-                ADD faq JSON DEFAULT NULL,
-                ADD review_snippets JSON DEFAULT NULL
-            SQL);
+        // Run DDL on the connection immediately. addSql() is deferred until after up() returns; the seed
+        // uses executeStatement() and would otherwise run *before* columns exist (SQLSTATE 1054).
+        if (!$this->tableHasColumn('itinerary_template', 'route_grades')) {
+            $this->connection->executeStatement(<<<'SQL'
+                ALTER TABLE itinerary_template
+                    ADD route_grades JSON DEFAULT NULL,
+                    ADD fitness_notes JSON DEFAULT NULL,
+                    ADD recommended_seasons JSON DEFAULT NULL,
+                    ADD map_image_url VARCHAR(2048) DEFAULT NULL,
+                    ADD source_reference_url VARCHAR(2048) DEFAULT NULL,
+                    ADD price_table JSON DEFAULT NULL,
+                    ADD booking_fee_items JSON DEFAULT NULL,
+                    ADD gear_checklist JSON DEFAULT NULL,
+                    ADD trekking_grade_notes LONGTEXT DEFAULT NULL,
+                    ADD faq JSON DEFAULT NULL,
+                    ADD review_snippets JSON DEFAULT NULL
+                SQL);
+        }
 
-        $this->addSql(<<<'SQL'
-            ALTER TABLE itinerary_template_day
-                ADD distance_km INT DEFAULT NULL,
-                ADD altitude_max_m INT DEFAULT NULL,
-                ADD altitude_min_m INT DEFAULT NULL,
-                ADD duration_hours DOUBLE DEFAULT NULL,
-                ADD accommodation VARCHAR(255) DEFAULT NULL
-            SQL);
+        if (!$this->tableHasColumn('itinerary_template_day', 'distance_km')) {
+            $this->connection->executeStatement(<<<'SQL'
+                ALTER TABLE itinerary_template_day
+                    ADD distance_km INT DEFAULT NULL,
+                    ADD altitude_max_m INT DEFAULT NULL,
+                    ADD altitude_min_m INT DEFAULT NULL,
+                    ADD duration_hours DOUBLE DEFAULT NULL,
+                    ADD accommodation VARCHAR(255) DEFAULT NULL
+                SQL);
+        }
 
         $this->seedLangtangSampleIfAbsent();
+    }
+
+    private function tableHasColumn(string $table, string $column): bool
+    {
+        $n = $this->connection->fetchOne(
+            <<<'SQL'
+            SELECT COUNT(*) FROM information_schema.COLUMNS
+            WHERE TABLE_SCHEMA = DATABASE()
+              AND TABLE_NAME = ?
+              AND COLUMN_NAME = ?
+            SQL,
+            [$table, $column],
+        );
+
+        return (int) $n > 0;
     }
 
     public function down(Schema $schema): void
